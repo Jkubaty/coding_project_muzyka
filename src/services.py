@@ -2,14 +2,14 @@ from data import Library_menu
 
 
 def display_items(items_list):
-    print(f"{'ID':<5} {'Tytuł':<10} {'data_wydania':<10} {'autor':<10}")
+    print(f"{'ID':<5} {'Tytuł':<10} {'Czas trwania [s]':<10} {'autor':<10}")
     print("*" * 30)
 
     for item in items_list:
         print(
             f"{item['id']}"
             f"({item['title']})"
-            f"({item['release_date']})"
+            f"({item['duration']})"
             f"({item['author']})"
         )
 

@@ -2,25 +2,25 @@ Library_menu = [
     {
         "id": 1,
         "title": "",
-        "release_date": "",
+        "duration": "",
         "author": "",
     },
     {
         "id": 2,
         "title": "",
-        "release_date": "",
+        "duration": "",
         "author": "",
     },
     {
         "id": 3,
         "title": "",
-        "release_date": "",
+        "duration": "",
         "author": "",
     },
     {
         "id": 4,
         "title": "",
-        "release_date": "",
+        "duration": "",
         "author": "",
     }
 ]

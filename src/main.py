@@ -23,7 +23,7 @@ def handle_menu_choice(choice: str) -> bool:
         case "2":
             new_item_data={
                 "title": get_non_empty_string("Podaj tytuł: "),
-                "release_date": get_non_empty_string("Podaj rok wydania: "),
+                "duration": get_non_empty_string("Podaj czas trwania [s]: "),
                 "author": get_non_empty_string("Podaj nazwisko: "),
             }
             add_item(Library_menu, new_item_data)
