@@ -1,6 +1,7 @@
 from services import display_items, add_item
 from validators import get_int_input, get_non_empty_string
 from data import Library_menu
+import math
 
 
 
@@ -21,9 +22,19 @@ def handle_menu_choice(choice: str) -> bool:
         case "1":
             display_items(Library_menu)
         case "2":
+            validduration = False
+            while not validduration:
+                duration = input('podaj czas grania (MM:SS)')
+                parts = duration.split(':')
+                if parts[0] == 2 and int(parts[0]) <= 59:
+                    if parts[1] == 2 and int(parts[1]) <= 59:
+                        validduration = True
+                else:
+                    print('czas trwania jest niepoprawny')
+            
             new_item_data={
                 "title": get_non_empty_string("Podaj tytuł: "),
-                "duration": get_non_empty_string("Podaj czas trwania [s]: "),
+                "duration": duration),
                 "author": get_non_empty_string("Podaj nazwisko: "),
             }
             add_item(Library_menu, new_item_data)
