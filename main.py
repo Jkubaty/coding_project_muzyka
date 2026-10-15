@@ -26,10 +26,13 @@ def handle_menu_choice(choice: str) -> bool:
             while not validduration:
                 duration = input('podaj czas grania (MM:SS)')
                 parts = duration.split(':')
-                if parts[0] == 2 and int(parts[0]) <= 59:
-                    if parts[1] == 2 and int(parts[1]) <= 59:
-                        validduration = True
-                else:
+                try:
+                    if parts[0] == 2 and int(parts[0]) <= 59:
+                        if parts[1] == 2 and int(parts[1]) <= 59:
+                            validduration = True
+                    else:
+                        print('czas trwania jest niepoprawny')
+                except:
                     print('czas trwania jest niepoprawny')
             
             new_item_data={
