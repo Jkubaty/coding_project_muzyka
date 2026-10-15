@@ -1,6 +1,8 @@
+from unittest import result
+
 from services import display_items, add_item
 from validators import get_int_input, get_non_empty_string
-from data import Library_menu
+from data import filter_menu, Library_menu
 
 
 
@@ -12,7 +14,7 @@ def print_menu():
     print("*" * 30)
     print(f"1. Wyświetl biblioteke utworów audio")
     print(f"2. Dodaj nowy utwór")
-    print(f"3. Symuluj odtwarzacz")
+    print(f"3. Filtruj biblioteke")
     print(f"4. Opuszczenie programu")
     print("-" * 30)
 
@@ -28,7 +30,14 @@ def handle_menu_choice(choice: str) -> bool:
             }
             add_item(Library_menu, new_item_data)
         case "3":
-            return True
+            query = input("Podaj tytul do wyszukania: ")
+            results = filter_menu(Library_menu, query)
+
+            if results:
+                for item in results:
+                    print(f"{item['title']} - {item['author']}")
+            else:
+                print(f"Niestety nie istnieje")
         case "4" | "end" | "exit":
             return False
         case _:
