@@ -1,4 +1,4 @@
-# Sprawozdanie z Zadania Laboratoryjnego nr \[NUMER]
+# Sprawozdanie z Zadania Laboratoryjnego nr \[1]
 
 **Przedmiot:** Programowanie w języku Python (`IwIK-S1`)  
 **Projekt:** MusicLab
@@ -23,7 +23,7 @@ Celem naszego projektu było wywoływanie funkcji w menu. Wyświetlanie bibliote
 
 *(Wykaz zrealizowanych plików w katalogu `src/` wraz z przypisaniem ich odpowiedzialności).*
 
-* `src/data.py` –  Trzymamy dane muzyk w systemie
+* `src/data.py` –  Trzymamy dane muzyk w systemie oraz funkcja filtrowania
 * `src/validators.py` – sprawdza występujące błedy
 * `src/services.py` – fukcja do wyświetlania biblioteki muzyk
 * `src/main.py` – głowna pętla programu
