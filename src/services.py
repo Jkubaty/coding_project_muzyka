@@ -8,7 +8,7 @@ def display_items(items_list):
     for item in items_list:
         print(
             f"{item['id']}"
-            f"({item['title']})"
+            f"({item['title'].capitalize()})"
             f"({item['duration']})"
             f"({item['author']})"
         )
