@@ -10,7 +10,7 @@ from data import filter_menu, Library_menu
 
 def print_menu():
     print("\n" + "*" * 30)
-    print("   MusicLib   ")
+    print("   MusicLab   ")
     print("*" * 30)
     print(f"1. Wyświetl biblioteke utworów audio")
     print(f"2. Dodaj nowy utwór")
@@ -23,10 +23,24 @@ def handle_menu_choice(choice: str) -> bool:
         case "1":
             display_items(Library_menu)
         case "2":
-            new_item_data={
+            validduration = False
+            while not validduration:
+                duration = input('podaj czas grania (MM:SS)')
+                parts = duration.split(':')
+                try:
+                    if len(parts[0]) == 2 and int(parts[0]) <= 59:
+                        if len(parts[1]) == 2 and int(parts[1]) <= 59:
+                            validduration = True
+                    else:
+                        print('czas trwania jest niepoprawny')
+                except:
+                    print('czas trwania jest niepoprawny')
+
+            new_item_data = {
                 "title": get_non_empty_string("Podaj tytuł: "),
-                "duration": get_non_empty_string("Podaj czas trwania [s]: "),
+                "duration": (duration),
                 "author": get_non_empty_string("Podaj nazwisko: "),
+
             }
             add_item(Library_menu, new_item_data)
         case "3":
@@ -44,6 +58,7 @@ def handle_menu_choice(choice: str) -> bool:
             print(f"Błąd, opcja jest nie znana. Wybierz wartość"
                   f"od 1 do 4")
     return True
+
 
 def main():
     running = True
