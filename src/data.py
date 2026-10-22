@@ -33,3 +33,4 @@ def filter_menu(catalog: list[dict], query:str) -> list[dict]:
             results.append(item)
     return results
 
+Playlists = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',]

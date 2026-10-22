@@ -1,10 +1,10 @@
 from dataclasses import fields
 from pdb import exit_with_permission_help_text
 from unittest import result
-
+import json
 from services import display_items, add_item
 from validators import get_int_input, get_non_empty_string
-from data import filter_menu, Library_menu
+from data import filter_menu, Library_menu, Playlists
 from pathlib import Path
 from storage import export_to_csv, import_from_csv, fields
 
@@ -20,8 +20,29 @@ def print_menu():
     print(f"3. Filtruj biblioteke")
     print(f"4. Pobierz biblioteke utworów")
     print(f"5. Importuj biblioteke")
-    print(f"6. Opuszczenie programu")
+    print(f"6. test")
+    print(f"7. Opuszczenie programu")
     print("-" * 30)
+
+def displayplaylists():
+    for i in range(len(Playlists)):
+        print(str(i + 1), '. ', Playlists[i])
+
+def getfilename(playlistnum):
+    playlistname = Playlists[int(playlistnum)-1]
+    return playlistname
+
+
+def display_list(filename,wanttoadd):
+    with open(filename, "r", encoding="utf-8") as file:
+        items = json.load(file)
+
+    for item in items:
+        print(item)
+    if wanttoadd:
+        songtoadd = input("Enter song to add: ")
+        items.append(songtoadd)
+        json.dump(items, file, indent=4)
 
 def handle_menu_choice(choice: str) -> bool:
     match choice.strip():
@@ -70,7 +91,11 @@ def handle_menu_choice(choice: str) -> bool:
             except FileNotFoundError:
                 print(f"Nie ma pliku do importu")
 
-        case "6" | "end" | "exit":
+        case "6":
+            displayplaylists()
+            getfilename()
+
+        case "7" | "end" | "exit":
             return False
         case _:
             print(f"Błąd, opcja jest nie znana. Wybierz wartość"
