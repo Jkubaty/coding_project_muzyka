@@ -1,9 +1,12 @@
+from dataclasses import fields
+from pdb import exit_with_permission_help_text
 from unittest import result
 
 from services import display_items, add_item
 from validators import get_int_input, get_non_empty_string
 from data import filter_menu, Library_menu
-
+from pathlib import Path
+from storage import export_to_csv, import_from_csv, fields
 
 
 
@@ -15,7 +18,9 @@ def print_menu():
     print(f"1. Wyświetl biblioteke utworów audio")
     print(f"2. Dodaj nowy utwór")
     print(f"3. Filtruj biblioteke")
-    print(f"4. Opuszczenie programu")
+    print(f"4. Pobierz biblioteke utworów")
+    print(f"5. Importuj biblioteke")
+    print(f"6. Opuszczenie programu")
     print("-" * 30)
 
 def handle_menu_choice(choice: str) -> bool:
@@ -52,11 +57,24 @@ def handle_menu_choice(choice: str) -> bool:
                     print(f"{item['title']} - {item['author']}")
             else:
                 print(f"Niestety nie istnieje")
-        case "4" | "end" | "exit":
+        case "4":
+            try:
+                export_to_csv(Path("data/tracks_library.csv"), Library_menu, fields)
+                print(f"Biblioteka pobrana pomyślnie")
+            except:
+                print(f"Biblioteka nie została pobrana")
+        case "5":
+            try:
+                Library_menu.extend(import_from_csv(Path("data/tracks_library.csv")))
+                print(f"Import zakończony pomyślnie")
+            except FileNotFoundError:
+                print(f"Nie ma pliku do importu")
+
+        case "6" | "end" | "exit":
             return False
         case _:
             print(f"Błąd, opcja jest nie znana. Wybierz wartość"
-                  f"od 1 do 4")
+                  f"od 1 do 6")
     return True
 
 
@@ -64,7 +82,7 @@ def main():
     running = True
     while running:
         print_menu()
-        choice = input("Wybierz liczbę od 1 do 4: ")
+        choice = input("Wybierz liczbę od 1 do 6: ")
         running = handle_menu_choice(choice)
 
 if __name__ == "__main__":

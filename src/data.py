@@ -1,27 +1,27 @@
 Library_menu = [
     {
         "id": 1,
-        "title": "",
-        "duration": "",
+        "title": "Smells Like Teen Spirit",
+        "duration": "05:01",
         "author": "nirvana",
     },
     {
         "id": 2,
-        "title": "",
-        "duration": "",
+        "title": "Lose Yourself",
+        "duration": "05:26",
         "author": "eminem",
     },
     {
         "id": 3,
-        "title": "",
-        "duration": "",
-        "author": "aaaaaa",
+        "title": "Come As You Are",
+        "duration": "03:39",
+        "author": "nirvana",
     },
     {
         "id": 4,
-        "title": "",
-        "duration": "",
-        "author": "dddddd",
+        "title": "Without Me",
+        "duration": "04:50",
+        "author": "eminem",
     }
 ]
 
