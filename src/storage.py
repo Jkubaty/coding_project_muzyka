@@ -2,7 +2,16 @@ import csv
 import json
 from pathlib import Path
 
-fields = ["Id", "Title", "Duration", "Author"]
+fields = ["id", "title", "duration", "author"]
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+FILE_PATH = DATA_DIR / "test.txt"
+
+with open(FILE_PATH, mode="w", encoding="utf-8") as f:
+    f.write("Inżynieria Oprogramowania PK\n")
 
 def export_to_csv(path: Path, data: list[dict], fields: list[str]) -> None:
 
@@ -45,3 +54,7 @@ def get_menu_file() -> Path:
     data_dir = Path(__file__).resolve().parent.parent / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
     return data_dir / "menu.json"
+
+def save_menu(items: list[dict]) -> None:
+    with open(get_menu_file(), mode="w", encoding="utf-8") as f:
+        json.dump(items, f, indent=4, ensure_ascii=False)

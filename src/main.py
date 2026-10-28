@@ -1,12 +1,10 @@
-from dataclasses import fields
-from pdb import exit_with_permission_help_text
-from unittest import result
+
 import json
 from services import display_items, add_item
 from validators import get_int_input, get_non_empty_string
 from data import filter_menu, Library_menu, Playlists
 from pathlib import Path
-from storage import export_to_csv, import_from_csv, fields
+from storage import export_to_csv, import_from_csv, fields, save_catalog, load_catalog, safe_load_catalog
 
 
 
@@ -48,6 +46,7 @@ def handle_menu_choice(choice: str) -> bool:
     match choice.strip():
         case "1":
             display_items(Library_menu)
+            input("\nNaciśnij Enter, aby wrócić do menu")
         case "2":
             validduration = False
             while not validduration:
@@ -69,6 +68,10 @@ def handle_menu_choice(choice: str) -> bool:
 
             }
             add_item(Library_menu, new_item_data)
+            playlists_path = Path(__file__).resolve().parent / "data" / "playlists.json"
+            save_catalog(playlists_path, Library_menu)
+            print("Utwór został dodany i zapisany.")
+            input("\nNaciśnij Enter, aby wrócić do menu...")
         case "3":
             query = input("Podaj tytul do wyszukania: ")
             results = filter_menu(Library_menu, query)
@@ -76,38 +79,73 @@ def handle_menu_choice(choice: str) -> bool:
             if results:
                 for item in results:
                     print(f"{item['title']} - {item['author']}")
+                    input("\nNaciśnij Enter, aby wrócić do menu...")
             else:
                 print(f"Niestety nie istnieje")
+                input("\nNaciśnij Enter, aby wrócić do menu...")
         case "4":
             try:
                 export_to_csv(Path("data/tracks_library.csv"), Library_menu, fields)
                 print(f"Biblioteka pobrana pomyślnie")
+                input("\nNaciśnij Enter, aby wrócić do menu...")
             except:
                 print(f"Biblioteka nie została pobrana")
+                input("\nNaciśnij Enter, aby wrócić do menu...")
         case "5":
             try:
-                Library_menu.extend(import_from_csv(Path("data/tracks_library.csv")))
-                print(f"Import zakończony pomyślnie")
+                imported_items = import_from_csv(Path("data/tracks_library.csv"))
+                added = 0
+                for item in imported_items:
+                    if not any(
+                            existing["title"] == item["title"]
+                            and existing["author"] == item["author"]
+                            for existing in Library_menu
+                    ):
+                        add_item(Library_menu, {
+                            "title": item["title"],
+                            "duration": item["duration"],
+                            "author": item["author"],
+                        })
+                        added += 1
+                print(f"Import zostaw wykonany poprawnie")
+                input("\nNaciśnij Enter, aby wrócić do menu...")
             except FileNotFoundError:
-                print(f"Nie ma pliku do importu")
+                print("Nie ma pliku do importu")
+                input("\nNaciśnij Enter, aby wrócić do menu...")
 
         case "6":
             displayplaylists()
             getfilename()
+            playlists_path = Path(__file__).resolve().parent / "data" / "playlists.json"
+            save_catalog(playlists_path, Playlists)
+            input("\nNaciśnij Enter, aby wrócić do menu...")
 
         case "7" | "end" | "exit":
             return False
         case _:
             print(f"Błąd, opcja jest nie znana. Wybierz wartość"
-                  f"od 1 do 6")
+                  f"od 1 do 7")
     return True
 
 
 def main():
+    global Library_menu
+
+    playlists_path = Path(__file__).resolve().parent / "data" / "playlists.json"
+    if playlists_path.exists():
+        loaded_items = safe_load_catalog(playlists_path, Library_menu)
+
+        if loaded_items:
+            Library_menu = loaded_items
+        else:
+            save_catalog(playlists_path, Library_menu)
+    else:
+        save_catalog(playlists_path, Library_menu)
+
     running = True
     while running:
         print_menu()
-        choice = input("Wybierz liczbę od 1 do 6: ")
+        choice = input("Wybierz liczbę od 1 do 7: ")
         running = handle_menu_choice(choice)
 
 if __name__ == "__main__":
