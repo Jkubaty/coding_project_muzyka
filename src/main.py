@@ -5,7 +5,7 @@ from validators import get_int_input, get_non_empty_string
 from data import filter_menu, Library_menu, Playlists
 from pathlib import Path
 from storage import export_to_csv, import_from_csv, fields, save_catalog, load_catalog, safe_load_catalog
-
+NAMES_PATH = "data/playlist_names.json"
 
 
 
@@ -18,7 +18,7 @@ def print_menu():
     print(f"3. Filtruj biblioteke")
     print(f"4. Pobierz biblioteke utworów")
     print(f"5. Importuj biblioteke")
-    print(f"6. test")
+    print(f"6. Playlisty")
     print(f"7. Opuszczenie programu")
     print("-" * 30)
 
@@ -114,11 +114,52 @@ def handle_menu_choice(choice: str) -> bool:
                 input("\nNaciśnij Enter, aby wrócić do menu...")
 
         case "6":
-            displayplaylists()
-            getfilename()
-            playlists_path = Path(__file__).resolve().parent / "data" / "playlists.json"
-            save_catalog(playlists_path, Playlists)
+            print("1. Wyświetl playlistę")
+            print("2. Utwórz nową playlistę")
+            sub = input("Wybierz opcję: ")
+
+            if sub == "1":
+                displayplaylists()
+                num = input("Wybierz numer playlisty: ")
+                name = getfilename(num)
+
+                try:
+                    with open(f"data/{name}.json", "r", encoding="utf-8") as file:
+                        songs = json.load(file)
+                except FileNotFoundError:
+                    songs = []
+
+                print(f"\n--- {name} ---")
+                if not songs:
+                    print("Playlista jest pusta.")
+                for i, song in enumerate(songs, start=1):
+                    if isinstance(song, dict):
+                        print(f"{i}. {song['title']} - {song['author']} ({song['duration']})")
+                    else:
+                        print(f"{i}. {song}")
+
+            elif sub == "2":
+                name = get_non_empty_string("Podaj nazwę nowej playlisty: ")
+                Playlists.append(name)
+
+                with open(NAMES_PATH, "w", encoding="utf-8") as file:
+                    json.dump(Playlists, file, indent=4, ensure_ascii=False)
+
+                songs = []
+                while True:
+                    song = input("Dodaj utwór (Enter, aby zakończyć): ").strip()
+                    if song == "":
+                        break
+                    songs.append(song)
+
+                with open(f"data/{name}.json", "w", encoding="utf-8") as file:
+                    json.dump(songs, file, indent=4, ensure_ascii=False)
+
+                print("Playlista została utworzona.")
+                print("piosenki dodane")
+
             input("\nNaciśnij Enter, aby wrócić do menu...")
+
 
         case "7" | "end" | "exit":
             return False
@@ -130,6 +171,11 @@ def handle_menu_choice(choice: str) -> bool:
 
 def main():
     global Library_menu
+    try:
+        with open(NAMES_PATH, "r", encoding="utf-8") as file:
+            Playlists[:] = json.load(file)
+    except FileNotFoundError:
+        pass
 
     playlists_path = Path(__file__).resolve().parent / "data" / "playlists.json"
     if playlists_path.exists():
