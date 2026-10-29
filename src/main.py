@@ -1,10 +1,12 @@
 
 import json
+import os
+import tempfile
 from services import display_items, add_item
 from validators import get_int_input, get_non_empty_string
 from data import filter_menu, Library_menu, Playlists
 from pathlib import Path
-from storage import export_to_csv, import_from_csv, fields, save_catalog, load_catalog, safe_load_catalog
+from storage import export_to_csv, import_from_csv, fields, save_catalog, load_catalog, safe_load_catalog, safe_save_json
 from backups import createbackup
 NAMES_PATH = "data/playlist_names.json"
 
@@ -179,6 +181,7 @@ def main():
         pass
 
     playlists_path = Path(__file__).resolve().parent / "data" / "playlists.json"
+    safe_save_json = Path(__file__).resolve().parent / "data" / "playlists.temp.json"
     createbackup(playlists_path, Path(__file__).resolve().parent / "data" / "backups")
     if playlists_path.exists():
         loaded_items = safe_load_catalog(playlists_path, Library_menu)
@@ -198,3 +201,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
