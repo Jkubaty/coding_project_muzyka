@@ -4,7 +4,8 @@ from services import display_items, add_item
 from validators import get_int_input, get_non_empty_string
 from data import filter_menu, Library_menu, Playlists
 from pathlib import Path
-from storage import export_to_csv, import_from_csv, fields, save_catalog, load_catalog, safe_load_catalog
+from storage import export_to_csv, import_from_csv, fields, save_catalog, load_catalog, safe_load_catalog, safe_save_json
+from backups import createbackup
 NAMES_PATH = "data/playlist_names.json"
 
 
@@ -69,7 +70,8 @@ def handle_menu_choice(choice: str) -> bool:
             }
             add_item(Library_menu, new_item_data)
             playlists_path = Path(__file__).resolve().parent / "data" / "playlists.json"
-            save_catalog(playlists_path, Library_menu)
+            safe_save_json(playlists_path, Library_menu)
+            #save_catalog(playlists_path, Library_menu)
             print("Utwór został dodany i zapisany.")
             input("\nNaciśnij Enter, aby wrócić do menu...")
         case "3":
@@ -112,9 +114,10 @@ def handle_menu_choice(choice: str) -> bool:
             except FileNotFoundError:
                 print("Nie ma pliku do importu")
                 input("\nNaciśnij Enter, aby wrócić do menu...")
+            safe_save_json(Path(__file__).resolve().parent / "data" / "playlists.json", Library_menu)
 
         case "6":
-            print("1. Wyświetl playlistę")
+            """print("1. Wyświetl playlistę")
             print("2. Utwórz nową playlistę")
             sub = input("Wybierz opcję: ")
 
@@ -158,7 +161,7 @@ def handle_menu_choice(choice: str) -> bool:
                 print("Playlista została utworzona.")
                 print("piosenki dodane")
 
-            input("\nNaciśnij Enter, aby wrócić do menu...")
+            input("\nNaciśnij Enter, aby wrócić do menu...")"""
 
 
         case "7" | "end" | "exit":
@@ -178,6 +181,8 @@ def main():
         pass
 
     playlists_path = Path(__file__).resolve().parent / "data" / "playlists.json"
+    safe_save_json = Path(__file__).resolve().parent / "data" / "playlists.temp.json"
+    createbackup(playlists_path, Path(__file__).resolve().parent / "data" / "backups")
     if playlists_path.exists():
         loaded_items = safe_load_catalog(playlists_path, Library_menu)
 
