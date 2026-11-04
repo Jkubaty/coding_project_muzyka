@@ -1,5 +1,5 @@
 import csv
-import json, os, tempfile
+import json
 from pathlib import Path
 
 fields = ["id", "title", "duration", "author"]
@@ -29,7 +29,7 @@ def import_from_csv(path: Path) -> list[dict]:
 def save_catalog(path: Path, items: list[dict]) -> None:
 
     with open(path, mode="w", encoding="utf-8") as f:
-        json.dump(items, f, indent=8, ensure_ascii=False)
+        json.dump(items, f, indent=4, ensure_ascii=False)
 
 def load_catalog(path: Path) -> list[dict]:
 
@@ -57,34 +57,4 @@ def get_menu_file() -> Path:
 
 def save_menu(items: list[dict]) -> None:
     with open(get_menu_file(), mode="w", encoding="utf-8") as f:
-        json.dump(items, f, indent=8, ensure_ascii=False)
-def get_data_dir() -> Path:
-    dir_path = Path(__file__).resolve().parent.parent / "data"
-    dir_path.mkdir(parents=True, exist_ok=True)
-    return dir_path
-def atomic_save_menu(catalog: list[dict]) -> None:
-    target = get_data_dir() / "menu.json"
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        dir=get_data_dir(),
-        prefix="menu_tmp_",
-        suffix=".json",
-        delete=False,
-        encoding="utf-8"
-    ) as tmp:
-        json.dump(catalog, tmp, indent=4, ensure_ascii=False)
-        tmp.flush()
-        os.fsync(tmp.fileno())
-        temp_path = Path(tmp.name)
-    os.replace(temp_path, target)
-
-def safe_save_json(target_path: Path, payload: list[dict]) -> None:
-
-    folder = target_path.parent
-    with tempfile.NamedTemporaryFile(mode="w", dir=folder, delete=False,
-encoding="utf-8") as tmp:
-            json.dump(payload, tmp, indent=8, ensure_ascii=False)
-            tmp.flush()
-            os.fsync(tmp.fileno())
-    temp_name = tmp.name
-    os.replace(temp_name, target_path)
+        json.dump(items, f, indent=4, ensure_ascii=False)
