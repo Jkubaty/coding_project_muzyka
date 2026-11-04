@@ -79,3 +79,13 @@ def atomic_save_menu(catalog: list[dict]) -> None:
         os.fsync(tmp.fileno())
         temp_path = Path(tmp.name)
     os.replace(temp_path, target)
+def safe_save_json(target_path: Path, payload: list[dict]) -> None:
+
+    folder = target_path.parent
+    with tempfile.NamedTemporaryFile(mode="w", dir=folder, delete=False,
+encoding="utf-8") as tmp:
+            json.dump(payload, tmp, indent=8, ensure_ascii=False)
+            tmp.flush()
+            os.fsync(tmp.fileno())
+    temp_name = tmp.name
+    os.replace(temp_name, target_path)
