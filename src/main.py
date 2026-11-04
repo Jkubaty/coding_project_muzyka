@@ -62,6 +62,9 @@ def handle_menu_choice(choice: str) -> bool:
                 except:
                     print('czas trwania jest niepoprawny')
 
+            minutes, seconds = map(int, duration.split(":"))
+            duration = minutes * 60 + seconds
+
             new_item_data = {
                 "title": get_non_empty_string("Podaj tytuł: "),
                 "duration": (duration),
