@@ -60,6 +60,32 @@ class Track(ABC):
     def calculate_storage_mb(self) -> float:
         pass
 
+class StudioTrack(Track):
+    def __init__(self, track_id, title, artist, duration_seconds, rating, album, fileformat, bitrate):
+        super().__init__(track_id, title, artist, duration_seconds, rating)
+        self.album = album
+        self.fileformat = fileformat
+        self.bitrate = bitrate
+
+
+class PodcastEpisode(Track):
+    def __init__(self, track_id, title, artist, duration_seconds, rating, nrodcinka, goscie, transkrypcja):
+        super().__init__(track_id, title, artist, duration_seconds, rating)
+        self.nrodcinka = nrodcinka
+        self.goscie = goscie
+        self.transkrypcja = transkrypcja
+
+ITEM_REGISTRY: dict[str, type[Track]] = {
+    "StudioTrack": StudioTrack,
+    "PodcastEpisode": PodcastEpisode,
+    }
+def deserialize_item(payload: dict[str, Any]) -> Track:
+    item_type = payload.get("type")
+    target_cls = ITEM_REGISTRY.get(item_type)
+    if target_cls is None:
+        raise ValueError(f"Nieznany dyskryminator typu w bazie: {item_type!r}")
+    return target_cls.from_dict(payload)
+
 class Playlist:
 
     def __init__(self, playlist_id: int, name: str,
