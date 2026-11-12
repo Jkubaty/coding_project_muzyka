@@ -1,5 +1,7 @@
 from typing import Any, Self
-class Track:
+from abc import ABC, abstractmethod
+
+class Track(ABC):
     def __init__(self, track_id, title, artist, duration_seconds, rating):
         self.track_id = track_id
         self.title = title
@@ -8,12 +10,10 @@ class Track:
         self.rating = rating
 
     def __repr__(self):
-        return (f"{self.__class__.__name__}(track_id={self.track_id}, "
-                f"title={self.title!r}, artist={self.artist!r}, "
-                f"duration_seconds={self.duration_seconds}, rating={self.rating})")
+        return f"Track(track_id={self.track_id}, title={self.title!r}, artist={self.artist}, duration_seconds={self.duration_seconds}, rating={self.rating})"
 
     def __str__(self):
-        return f"[{self.track_id}] {self.title} - {self.artist}"
+        return f"[{self.track_id} {self.title} {self.artist:}"
 
     @property
     def duration_seconds(self) -> int:
@@ -56,10 +56,12 @@ class Track:
             float(data["rating"]),
         )
 
+    @abstractmethod
+    def calculate_storage_mb(self) -> float:
+        pass
 
 class StudioTrack(Track):
-    def __init__(self, track_id, title, artist, duration_seconds, rating,
-                 album, fileformat, bitrate):
+    def __init__(self, track_id, title, artist, duration_seconds, rating, album, fileformat, bitrate):
         super().__init__(track_id, title, artist, duration_seconds, rating)
         self.album = album
         self.fileformat = fileformat
@@ -73,6 +75,16 @@ class PodcastEpisode(Track):
         self.goscie = goscie
         self.transkrypcja = transkrypcja
 
+ITEM_REGISTRY: dict[str, type[Track]] = {
+    "StudioTrack": StudioTrack,
+    "PodcastEpisode": PodcastEpisode,
+    }
+def deserialize_item(payload: dict[str, Any]) -> Track:
+    item_type = payload.get("type")
+    target_cls = ITEM_REGISTRY.get(item_type)
+    if target_cls is None:
+        raise ValueError(f"Nieznany dyskryminator typu w bazie: {item_type!r}")
+    return target_cls.from_dict(payload)
 
 class Playlist:
 
