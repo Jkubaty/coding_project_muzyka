@@ -1,5 +1,7 @@
 from typing import Any, Self
-class Track:
+from abc import ABC, abstractmethod
+
+class Track(ABC):
     def __init__(self, track_id, title, artist, duration_seconds, rating):
         self.track_id = track_id
         self.title = title
@@ -53,6 +55,10 @@ class Track:
             int(data["duration_seconds"]),
             float(data["rating"]),
         )
+
+    @abstractmethod
+    def calculate_storage_mb(self) -> float:
+        pass
 
 class Playlist:
 
