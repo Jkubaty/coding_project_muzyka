@@ -15,24 +15,6 @@ class Track:
     def __str__(self):
         return f"[{self.track_id}] {self.title} - {self.artist}"
 
-
-class StudioTrack(Track):
-    def __init__(self, track_id, title, artist, duration_seconds, rating,
-                 album, fileformat, bitrate):
-        super().__init__(track_id, title, artist, duration_seconds, rating)
-        self.album = album
-        self.fileformat = fileformat
-        self.bitrate = bitrate
-
-
-class PodcastEpisode(Track):
-    def __init__(self, track_id, title, artist, duration_seconds, rating,
-                 nrodcinka, goscie, transkrypcja):
-        super().__init__(track_id, title, artist, duration_seconds, rating)
-        self.nrodcinka = nrodcinka
-        self.goscie = goscie
-        self.transkrypcja = transkrypcja
-
     @property
     def duration_seconds(self) -> int:
         return self._duration_seconds
@@ -75,7 +57,21 @@ class PodcastEpisode(Track):
         )
 
 
+class StudioTrack(Track):
+    def __init__(self, track_id, title, artist, duration_seconds, rating,
+                 album, fileformat, bitrate):
+        super().__init__(track_id, title, artist, duration_seconds, rating)
+        self.album = album
+        self.fileformat = fileformat
+        self.bitrate = bitrate
 
+
+class PodcastEpisode(Track):
+    def __init__(self, track_id, title, artist, duration_seconds, rating, nrodcinka, goscie, transkrypcja):
+        super().__init__(track_id, title, artist, duration_seconds, rating)
+        self.nrodcinka = nrodcinka
+        self.goscie = goscie
+        self.transkrypcja = transkrypcja
 
 
 class Playlist:
