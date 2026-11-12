@@ -8,10 +8,30 @@ class Track:
         self.rating = rating
 
     def __repr__(self):
-        return f"Track(track_id={self.track_id}, title={self.title!r}, artist={self.artist}, duration_seconds={self.duration_seconds}, rating={self.rating})"
+        return (f"{self.__class__.__name__}(track_id={self.track_id}, "
+                f"title={self.title!r}, artist={self.artist!r}, "
+                f"duration_seconds={self.duration_seconds}, rating={self.rating})")
 
     def __str__(self):
-        return f"[{self.track_id} {self.title} {self.artist:}"
+        return f"[{self.track_id}] {self.title} - {self.artist}"
+
+
+class StudioTrack(Track):
+    def __init__(self, track_id, title, artist, duration_seconds, rating,
+                 album, fileformat, bitrate):
+        super().__init__(track_id, title, artist, duration_seconds, rating)
+        self.album = album
+        self.fileformat = fileformat
+        self.bitrate = bitrate
+
+
+class PodcastEpisode(Track):
+    def __init__(self, track_id, title, artist, duration_seconds, rating,
+                 nrodcinka, goscie, transkrypcja):
+        super().__init__(track_id, title, artist, duration_seconds, rating)
+        self.nrodcinka = nrodcinka
+        self.goscie = goscie
+        self.transkrypcja = transkrypcja
 
     @property
     def duration_seconds(self) -> int:
@@ -53,6 +73,10 @@ class Track:
             int(data["duration_seconds"]),
             float(data["rating"]),
         )
+
+
+
+
 
 class Playlist:
 
