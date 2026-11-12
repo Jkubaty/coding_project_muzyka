@@ -10,12 +10,10 @@ class Track(ABC):
         self.rating = rating
 
     def __repr__(self):
-        return (f"{self.__class__.__name__}(track_id={self.track_id}, "
-                f"title={self.title!r}, artist={self.artist!r}, "
-                f"duration_seconds={self.duration_seconds}, rating={self.rating})")
+        return f"Track(track_id={self.track_id}, title={self.title!r}, artist={self.artist}, duration_seconds={self.duration_seconds}, rating={self.rating})"
 
     def __str__(self):
-        return f"[{self.track_id}] {self.title} - {self.artist}"
+        return f"[{self.track_id} {self.title} {self.artist:}"
 
     @property
     def duration_seconds(self) -> int:
@@ -26,7 +24,7 @@ class Track(ABC):
         if not isinstance(czas, int):
             raise TypeError("Czas musi być nie przecinkowy.")
         if czas <= 0:
-            raise ValueError(f"Czas musi być większa od zera (podano: {czas}).")
+            raise ValueError(f"Czas musi być większa od zera (podano: {int}).")
         self._duration_seconds = czas
 
     def __eq__(self, other: object) -> bool:
@@ -38,10 +36,6 @@ class Track(ABC):
         if not isinstance(other, Track):
             return NotImplemented
         return (self.duration_seconds, self.title) < (other.duration_seconds, other.title)
-
-    @abstractmethod
-    def calculate_storage_mb(self) -> float:
-        pass
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -62,20 +56,9 @@ class Track(ABC):
             float(data["rating"]),
         )
 
-class StudioTrack(Track):
-    def init(self, track_id, title, artist, duration_seconds, rating, album, fileformat, bitrate):
-        super().init(track_id, title, artist, duration_seconds, rating)
-        self.album = album
-        self.fileformat = fileformat
-        self.bitrate = bitrate
-
-
-class PodcastEpisode(Track):
-    def init(self, track_id, title, artist, duration_seconds, rating, nrodcinka, goscie, transkrypcja):
-        super().init(track_id, title, artist, duration_seconds, rating)
-        self.nrodcinka = nrodcinka
-        self.goscie = goscie
-        self.transkrypcja = transkrypcja
+    @abstractmethod
+    def calculate_storage_mb(self) -> float:
+        pass
 
 class Playlist:
 
@@ -105,4 +88,3 @@ class Playlist:
     def from_dict(cls, data: dict[str, Any]) -> Self:
         restored_tracks = [Track.from_dict(raw) for raw in data.get("tracks", [])]
         return cls(int(data["playlist_id"]), data["name"], restored_tracks)
-

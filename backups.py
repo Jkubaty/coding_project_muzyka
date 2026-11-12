@@ -3,7 +3,11 @@ from datetime import datetime
 from pathlib import Path
 
 
-def createbackup(source_file: Path, backup_dir: Path, max_backups: int = 3) -> Path | None:
+def get_data_dir() -> Path:
+    return Path(__file__).resolve().parent / "data"
+
+
+def create_backup(source_file: Path, backup_dir: Path, max_backups: int = 3) -> Path | None:
     if not source_file.exists():
         return None
 
@@ -19,3 +23,13 @@ def createbackup(source_file: Path, backup_dir: Path, max_backups: int = 3) -> P
 
     return backup_path
 
+
+def backup_menu(keep: int = 3) -> Path | None:
+    return create_backup(get_data_dir() / "playlists.json", get_data_dir() / "backups", keep)
+
+
+def backup_playlists(names: list, keep: int = 3) -> None:
+    backup_dir = get_data_dir() / "backups"
+    create_backup(get_data_dir() / "playlist_names.json", backup_dir, keep)
+    for name in names:
+        create_backup(get_data_dir() / f"{name}.json", backup_dir, keep)
