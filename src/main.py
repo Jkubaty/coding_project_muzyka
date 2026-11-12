@@ -62,6 +62,9 @@ def handle_menu_choice(choice: str) -> bool:
                 except:
                     print('czas trwania jest niepoprawny')
 
+            minutes, seconds = map(int, duration.split(":"))
+            duration = minutes * 60 + seconds
+
             new_item_data = {
                 "title": get_non_empty_string("Podaj tytuł: "),
                 "duration": (duration),
@@ -70,7 +73,8 @@ def handle_menu_choice(choice: str) -> bool:
             }
             add_item(Library_menu, new_item_data)
             playlists_path = Path(__file__).resolve().parent / "data" / "playlists.json"
-            save_catalog(playlists_path, Library_menu)
+            safe_save_json(playlists_path, Library_menu)
+            #save_catalog(playlists_path, Library_menu)
             print("Utwór został dodany i zapisany.")
             input("\nNaciśnij Enter, aby wrócić do menu...")
         case "3":
@@ -113,9 +117,10 @@ def handle_menu_choice(choice: str) -> bool:
             except FileNotFoundError:
                 print("Nie ma pliku do importu")
                 input("\nNaciśnij Enter, aby wrócić do menu...")
+            safe_save_json(Path(__file__).resolve().parent / "data" / "playlists.json", Library_menu)
 
         case "6":
-            print("1. Wyświetl playlistę")
+            """print("1. Wyświetl playlistę")
             print("2. Utwórz nową playlistę")
             sub = input("Wybierz opcję: ")
 
@@ -159,7 +164,7 @@ def handle_menu_choice(choice: str) -> bool:
                 print("Playlista została utworzona.")
                 print("piosenki dodane")
 
-            input("\nNaciśnij Enter, aby wrócić do menu...")
+            input("\nNaciśnij Enter, aby wrócić do menu...")"""
 
 
         case "7" | "end" | "exit":
