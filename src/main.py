@@ -6,7 +6,9 @@ from data import filter_menu, Library_menu, Playlists
 from pathlib import Path
 from storage import export_to_csv, import_from_csv, fields, save_catalog, load_catalog, safe_load_catalog, safe_save_json
 from backups import createbackup
+from PlaylistManager import PlaylistManager
 NAMES_PATH = "data/playlist_names.json"
+manager = PlaylistManager(format_name="mp3_128", filepath="data/playlists.json")
 
 
 
@@ -120,52 +122,71 @@ def handle_menu_choice(choice: str) -> bool:
             safe_save_json(Path(__file__).resolve().parent / "data" / "playlists.json", Library_menu)
 
         case "6":
-            """print("1. Wyświetl playlistę")
-            print("2. Utwórz nową playlistę")
-            sub = input("Wybierz opcję: ")
+            print("\n--- MENU PLAYLIST ---")
+            print("1. Stwórz playlistę")
+            print("2. Dodaj utwór do playlisty")
+            print("3. Wyświetl playlisty i szacowany rozmiar")
+            print("4. Sortuj playlistę")
+            sub_choice = input("Wybierz opcję (1-4): ")
 
-            if sub == "1":
-                displayplaylists()
-                num = input("Wybierz numer playlisty: ")
-                name = getfilename(num)
-
-                try:
-                    with open(f"data/{name}.json", "r", encoding="utf-8") as file:
-                        songs = json.load(file)
-                except FileNotFoundError:
-                    songs = []
-
-                print(f"\n--- {name} ---")
-                if not songs:
-                    print("Playlista jest pusta.")
-                for i, song in enumerate(songs, start=1):
-                    if isinstance(song, dict):
-                        print(f"{i}. {song['title']} - {song['author']} ({song['duration']})")
+            match sub_choice.strip():
+                case "1":
+                    name = input("Podaj nazwę nowej playlisty: ")
+                    manager.create(name)
+                    print(f"Utworzono playlistę: {name}")
+                case "2":
+                    if not manager.playlists:
+                        print("Najpierw stwórz jakąś playlistę!")
+                    elif not Library_menu:
+                        print("Brak utworów w bibliotece!")
                     else:
-                        print(f"{i}. {song}")
+                        print("\nDostępne playlisty:")
+                        playlists_keys = list(manager.playlists.keys())
+                        for idx, pname in enumerate(playlists_keys, 1):
+                            print(f"{idx}. {pname}")
+                        p_idx = int(input("Wybierz numer playlisty: ")) - 1
 
-            elif sub == "2":
-                name = get_non_empty_string("Podaj nazwę nowej playlisty: ")
-                Playlists.append(name)
+                        print("\nDostępne utwory w bibliotece:")
+                        for idx, track in enumerate(Library_menu, 1):
+                            print(f"{idx}. {track['title']} - {track['author']}")
+                        t_idx = int(input("Wybierz numer utworu do dodania: ")) - 1
 
-                with open(NAMES_PATH, "w", encoding="utf-8") as file:
-                    json.dump(Playlists, file, indent=4, ensure_ascii=False)
+                        chosen_playlist = playlists_keys[p_idx]
+                        chosen_track = Library_menu[t_idx]
+                        manager.add_track(chosen_playlist, chosen_track)
+                        print(f"Dodano utwór do playlisty '{chosen_playlist}'.")
+                case "3":
+                    if not manager.playlists:
+                        print("Brak playlist.")
+                    else:
+                        for pname, tracks in manager.playlists.items():
+                            size_bytes = manager.estimate_size(pname)
+                            print(f"\nPlaylista: {pname} (Liczba utworów: {len(tracks)}, Rozmiar: {size_bytes} bajtów)")
+                            for t in tracks:
+                                print(f" - {t['title']} ({t['author']})")
+                case "4":
+                    if not manager.playlists:
+                        print("Brak playlist do sortowania.")
+                    else:
+                        print("\nDostępne playlisty:")
+                        playlists_keys = list(manager.playlists.keys())
+                        for idx, pname in enumerate(playlists_keys, 1):
+                            print(f"{idx}. {pname}")
+                        p_idx = int(input("Wybierz numer playlisty do posortowania: ")) - 1
+                        chosen_playlist = playlists_keys[p_idx]
 
-                songs = []
-                while True:
-                    song = input("Dodaj utwór (Enter, aby zakończyć): ").strip()
-                    if song == "":
-                        break
-                    songs.append(song)
+                        print("Kryteria sortowania: title, author, duration")
+                        sort_by = input("Podaj kryterium sortowania: ")
+                        rev = input("Odwrócić kolejność? (t/N): ").lower() == 't'
 
-                with open(f"data/{name}.json", "w", encoding="utf-8") as file:
-                    json.dump(songs, file, indent=4, ensure_ascii=False)
-
-                print("Playlista została utworzona.")
-                print("piosenki dodane")
-
-            input("\nNaciśnij Enter, aby wrócić do menu...")"""
-
+                        try:
+                            manager.sort(chosen_playlist, by=sort_by, reverse=rev)
+                            print("Playlista została posortowana.")
+                        except KeyError:
+                            print("Nieprawidłowe kryterium sortowania!")
+                case _:
+                    print("Nieznana podopcja playlist.")
+            input("\nNaciśnij Enter, aby wrócić do menu...")
 
         case "7" | "end" | "exit":
             return False
