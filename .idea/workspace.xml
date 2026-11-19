@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ef68a97-69b3-48cf-b23c-f09009321613" name="Changes" comment="Merge branch 'main' of https://github.com/Jkubaty/coding_project_muzyka&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;zmiana">
-      <change afterPath="$PROJECT_DIR$/src/manager.py" afterDir="false" />
+    <list default="true" id="3ef68a97-69b3-48cf-b23c-f09009321613" name="Changes" comment="Merge branch 'main' of https://github.com/Jkubaty/coding_project_muzyka&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;zeszly tydzien">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/backups/playlists_20261029_175540.bak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/backups/playlists_20261029_175719.bak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/test_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,61 +37,61 @@
 }</component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0000000000047937" />
-      <entry key="S2" value="1.0014796790529261" />
-      <entry key="S5" value="1.0738018095288016" />
-      <entry key="S10" value="1.2716675165347846" />
-      <entry key="S30" value="1.7036815932469542" />
-      <entry key="S60" value="2.718170602567408" />
-      <entry key="M2" value="6.831774732519493" />
-      <entry key="M5" value="21.894677056355178" />
-      <entry key="M10" value="41.70728117478598" />
-      <entry key="M15" value="57.56010324215717" />
-      <entry key="M30" value="96.31238560643921" />
-      <entry key="H1" value="159.63697697964722" />
-      <entry key="H2" value="263.65393181039605" />
-      <entry key="H4" value="395.81690550479203" />
-      <entry key="D1" value="625.8308011090397" />
-      <entry key="W1" value="685.3040809359456" />
+      <entry key="MS100" value="1.0153034427468972" />
+      <entry key="MS500" value="1.4528874549055724" />
+      <entry key="S2" value="2.424843859026776" />
+      <entry key="S5" value="3.1639733475697964" />
+      <entry key="S10" value="3.5360864006061976" />
+      <entry key="S30" value="3.9040677385064426" />
+      <entry key="S60" value="4.467716988258169" />
+      <entry key="M2" value="7.037103512690746" />
+      <entry key="M5" value="19.9025825692067" />
+      <entry key="M10" value="39.555427634468735" />
+      <entry key="M15" value="55.75347297761401" />
+      <entry key="M30" value="95.32749481833008" />
+      <entry key="H1" value="159.45189319193756" />
+      <entry key="H2" value="264.1754538031138" />
+      <entry key="H4" value="397.1973447583331" />
+      <entry key="D1" value="629.1386220839375" />
+      <entry key="W1" value="689.1957507638424" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
-      <entry key="S2" value="1.3398008130611763E-111" />
-      <entry key="S5" value="4.4752375681579376E-45" />
-      <entry key="S10" value="6.689721644551398E-23" />
-      <entry key="S30" value="4.059472685297633E-8" />
-      <entry key="S60" value="2.0170773152497493E-4" />
-      <entry key="M2" value="0.014867584695769242" />
-      <entry key="M5" value="0.2669896911996411" />
-      <entry key="M10" value="0.9102236699292066" />
-      <entry key="M15" value="1.5183044423801468" />
-      <entry key="M30" value="3.3378546926400157" />
-      <entry key="H1" value="7.567549850850967" />
-      <entry key="H2" value="15.100351001903181" />
-      <entry key="H4" value="23.977082423850373" />
-      <entry key="D1" value="37.97619386403094" />
-      <entry key="W1" value="41.39253479656487" />
+      <entry key="S2" value="2.3270601871515767E-132" />
+      <entry key="S5" value="2.2218925174708676E-53" />
+      <entry key="S10" value="4.713695490239981E-27" />
+      <entry key="S30" value="1.6766951784882375E-9" />
+      <entry key="S60" value="4.0993480315260776E-5" />
+      <entry key="M2" value="0.006702495702521396" />
+      <entry key="M5" value="0.19413012860033083" />
+      <entry key="M10" value="0.776153016202863" />
+      <entry key="M15" value="1.3652903243888874" />
+      <entry key="M30" value="3.1651952215622465" />
+      <entry key="H1" value="7.369225189926382" />
+      <entry key="H2" value="14.901168001192953" />
+      <entry key="H4" value="23.81842117848832" />
+      <entry key="D1" value="37.934195213631696" />
+      <entry key="W1" value="41.38599214466156" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.6198538499694932" />
-      <entry key="MS500" value="0.9087781164523921" />
-      <entry key="S2" value="0.9777728618736415" />
-      <entry key="S5" value="1.062723091285177" />
-      <entry key="S10" value="1.2640117550359544" />
-      <entry key="S30" value="1.6997246071559113" />
-      <entry key="S60" value="2.7155884702741524" />
-      <entry key="M2" value="6.843535983344646" />
-      <entry key="M5" value="22.155582515366184" />
-      <entry key="M10" value="42.60959085129376" />
-      <entry key="M15" value="59.070322275212185" />
-      <entry key="M30" value="99.64224217995469" />
-      <entry key="H1" value="167.1957297530379" />
-      <entry key="H2" value="278.74476583427804" />
-      <entry key="H4" value="419.78568881741785" />
-      <entry key="D1" value="663.8045577325196" />
-      <entry key="W1" value="726.6962283983023" />
+      <entry key="MS100" value="0.9089132382650441" />
+      <entry key="MS500" value="1.4217081410100563" />
+      <entry key="S2" value="2.4091620001038856" />
+      <entry key="S5" value="3.1551071000471174" />
+      <entry key="S10" value="3.531001921617561" />
+      <entry key="S30" value="3.90203671537263" />
+      <entry key="S60" value="4.46623477738718" />
+      <entry key="M2" value="7.041920840057652" />
+      <entry key="M5" value="20.09209341213183" />
+      <entry key="M10" value="40.324734395838234" />
+      <entry key="M15" value="57.11142738394876" />
+      <entry key="M30" value="98.4850729406697" />
+      <entry key="H1" value="166.8125354925588" />
+      <entry key="H2" value="279.06722217987783" />
+      <entry key="H4" value="421.00751765144844" />
+      <entry key="D1" value="667.0703820705086" />
+      <entry key="W1" value="730.5813555381031" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -305,7 +300,15 @@
       <option name="project" value="LOCAL" />
       <updated>1794505049706</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Merge branch 'main' of https://github.com/Jkubaty/coding_project_muzyka&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;zeszly tydzien">
+      <option name="closed" value="true" />
+      <created>1795099182730</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1795099182730</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -333,7 +336,8 @@
     <MESSAGE value="Merge branch 'main' of https://github.com/Jkubaty/coding_project_muzyka&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;modele" />
     <MESSAGE value="Merge branch 'main' of https://github.com/Jkubaty/coding_project_muzyka&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;baza Track(ABC)" />
     <MESSAGE value="Merge branch 'main' of https://github.com/Jkubaty/coding_project_muzyka&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;zmiana" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'main' of https://github.com/Jkubaty/coding_project_muzyka&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;zmiana" />
+    <MESSAGE value="Merge branch 'main' of https://github.com/Jkubaty/coding_project_muzyka&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;zeszly tydzien" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'main' of https://github.com/Jkubaty/coding_project_muzyka&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;zeszly tydzien" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/pythonproject2$models.coverage" NAME="models Coverage Results" MODIFIED="1793899386563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />

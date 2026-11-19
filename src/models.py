@@ -1,7 +1,7 @@
 from typing import Any, Self
 from abc import ABC, abstractmethod
 
-class Track(ABC):
+class Track:
     def __init__(self, track_id, title, artist, duration_seconds, rating):
         self.track_id = track_id
         self.title = title
