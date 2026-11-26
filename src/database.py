@@ -1,5 +1,5 @@
 import sqlite3
-from models import Track
+from models import Track, Playlist
 import json
 from pathlib import Path
 
@@ -16,6 +16,7 @@ class Database_Music():
         self.conn = get_connection()
         self.cursor = self.conn.cursor()
         self.create_tables()
+        self.migrate_playlists()
     def create_tables(self):
         DDL_Musics = """
             CREATE TABLE IF NOT EXISTS playlists (
@@ -50,35 +51,48 @@ class Database_Music():
                 for track in tracks
             ]
             self.conn.executemany(
-                """INSERT INTO playlist_tracks (playlist_id, title, artist, duration_seconds, rating)
+                """INSERT INTO playlist_tracks (playlist_id, title, artist, duration_sec, rating)
                 VALUES (?, ?, ?, ?, ?);""",
                 payload
             )
             return playlist_id
 
     def migrate_playlists(self) -> None:
-        with open("src/data/playlst.json", "r", encoding="utf-8") as file:
-            playlists = json.load(file)
-        with self.conn:
-            for playlist in playlists:
-                self.conn.execute(
-                    """INSERT INTO playlists (playlist_id, name) VALUES (?, ?);""",
-                    (playlist["playlist_id"], playlist["name"])
-                )
-            for track in playlist["tracks"]:
-                self.conn.execute(
-                    """INSERT INTO playlist_tracks (playlist_id, track_id, title, artist, duration_seconds, rating)
-                    VALUES (?, ?, ?, ?, ?, ?);""",
-                    track["track_id"], track["playlist_id"], track["title"], track["artist"], track["duration_seconds"], track["rating"]
+        path = Path("src/data/playlists.json")
+        count = self.conn.execute(
+            "SELECT COUNT(*) FROM playlists;"
+        ).fetchone()[0]
+        print("Liczba playlist:", count)
+        print("Czy JSON istnieje:", path.exists())
+        if count == 0 and path.exists():
+            with open(path, "r", encoding="utf-8") as file:
+                playlists = json.load(file)
+            tracks = []
+            for item in playlists:
+                track_data = {
+                    "track_id": item["id"],
+                    "title": item["title"],
+                    "artist": item["author"],
+                    "duration_seconds": item["duration"],
+                    "rating": 5
+                }
+                if isinstance(track_data["duration_seconds"], str):
+                    minutes, seconds = track_data["duration_seconds"].split(":")
+                    track_data["duration_seconds"] = int(minutes) * 60 + int(seconds)
 
-                )
+                tracks.append(Track.from_dict(track_data))
+
+            playlist = Playlist(1, "Playlista", tracks)
+            self.save_playlists(
+                playlist.name,
+                None,
+                [track.to_dict() for track in playlist.tracks]
+            )
+            path.rename(path.with_suffix(".json.bak"))
 
 
-conn = get_connection()
-cursor = conn.execute("SELECT playlist_id, name, description FROM playlists WHERE playlist_id = 1;")
-row: sqlite3.Row = cursor.fetchone()
-print(row["name"], row["description"])
-playlist = Track.from_dict(dict(row))
+
+
 
 
 
