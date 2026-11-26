@@ -10,7 +10,7 @@ def get_connection(db_path: str = "music.db") -> (
     conn.execute("PRAGMA foreign_keys = ON;")
     conn.row_factory = sqlite3.Row
     return conn
-
+ALLOWED_SORT_COLS = {"track_id", "title", "artist", "duration_sec", "rating"}
 class Database_Music():
     def __init__(self):
         self.conn = get_connection()
@@ -92,9 +92,18 @@ class Database_Music():
 
 
 
-
-
-
-
-
-
+    def search_tracks_safe(
+            conn: sqlite3.Connection,
+            phrase: str,
+            sort_by: str = "track_id",
+    ) -> list[sqlite3.Row]:
+        if sort_by not in ALLOWED_SORT_COLS:
+            raise ValueError(f"Niedozwolona kolumna sortowania: {sort_by}")
+        sql = (
+            "SELECT track_id, title, artist, duration_sec, rating "
+            "FROM playlist_tracks "
+            "WHERE title LIKE :pattern OR artist LIKE :pattern "
+            f"ORDER BY {sort_by} ASC;"
+        )
+        params = {"pattern": f"%{phrase}%"}
+        return conn.execute(sql, params).fetchall()
