@@ -90,7 +90,24 @@ class Database_Music():
             )
             path.rename(path.with_suffix(".json.bak"))
 
+    def get_playlist_statistics(self, min_tracks: int = 0) -> list[dict]:
+        sql = """
+            SELECT
+                p.playlist_id,
+                p.name,
+                COUNT(pt.track_id) AS tracks_count,
+                COALESCE(SUM(pt.duration_sec), 0) AS total_duration,
+                COALESCE(AVG(pt.rating), 0) AS average_rating
+            FROM playlists AS p
+            LEFT JOIN playlist_tracks AS pt
+                ON p.playlist_id = pt.playlist_id
+            GROUP BY p.playlist_id, p.name
+            HAVING COUNT(pt.track_id) >= ?
+            ORDER BY p.playlist_id;
+        """
 
+        rows = self.conn.execute(sql, (min_tracks,)).fetchall()
+        return [dict(row) for row in rows]
 
 
 
